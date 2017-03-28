@@ -41,7 +41,7 @@ class DefaultController extends Controller
             'query' => Page::find(),
         ]);
 
-        return $this->render('@vendor/dench/yii2-page/views/page/index', [
+        return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -53,7 +53,7 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('@vendor/dench/yii2-page/views/page/view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -101,7 +101,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('@vendor/dench/yii2-page/views/page/create', [
+        return $this->render('create', [
             'model' => $model,
             'images' => $images,
         ]);
@@ -148,7 +148,7 @@ class DefaultController extends Controller
             }
         }
 
-        return $this->render('@vendor/dench/yii2-page/views/page/update', [
+        return $this->render('update', [
             'model' => $model,
             'images' => $images,
         ]);
