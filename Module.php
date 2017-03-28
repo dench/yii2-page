@@ -2,6 +2,8 @@
 
 namespace dench\page;
 
+use Yii;
+
 /**
  * Class Module
  *

@@ -44,8 +44,8 @@ $this->registerJs($js);
         <?php foreach (Language::suffixList() as $suffix => $name) : ?>
             <li class="nav-item<?= empty($suffix) ? ' active': '' ?>"><a href="#lang<?= $suffix ?>" class="nav-link" data-toggle="tab"><?= $name ?></a></li>
         <?php endforeach; ?>
-        <li class="nav-item"><a href="#tab-main" class="nav-link" data-toggle="tab"><?= Yii::t('app', 'Main') ?></a></li>
-        <li class="nav-item"><a href="#tab-images" class="nav-link" data-toggle="tab"><?= Yii::t('app', 'Images') ?></a></li>
+        <li class="nav-item"><a href="#tab-main" class="nav-link" data-toggle="tab"><?= Yii::t('page', 'Main') ?></a></li>
+        <li class="nav-item"><a href="#tab-images" class="nav-link" data-toggle="tab"><?= Yii::t('page', 'Images') ?></a></li>
     </ul>
 
     <div class="tab-content">
@@ -82,7 +82,7 @@ $this->registerJs($js);
         </div>
 
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('page', 'Create') : Yii::t('page', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
 

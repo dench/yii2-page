@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $model dench\page\models\Page */
 /* @var $images app\models\Image */
 
-$this->title = Yii::t('app', 'Create Page');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pages'), 'url' => ['index']];
+$this->title = Yii::t('page', 'Create Page');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('page', 'Pages'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-create">

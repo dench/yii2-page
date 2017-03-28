@@ -96,7 +96,7 @@ class DefaultController extends Controller
                 foreach ($images as $key => $image) {
                     $image->save(false);
                 }
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Information added successfully'));
+                Yii::$app->session->setFlash('success', Yii::t('page', 'Information added successfully.'));
                 return $this->redirect(['index']);
             }
         }
@@ -143,7 +143,7 @@ class DefaultController extends Controller
                 foreach ($images as $key => $image) {
                     $image->save(false);
                 }
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Information has been saved successfully'));
+                Yii::$app->session->setFlash('success', Yii::t('page', 'Information has been saved successfully.'));
                 return $this->redirect(['index']);
             }
         }
@@ -179,7 +179,7 @@ class DefaultController extends Controller
         if (($model = Page::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('page', 'The requested page does not exist.'));
         }
     }
 
@@ -195,7 +195,7 @@ class DefaultController extends Controller
         if (($model = Page::find()->where(['id' => $id])->multilingual()->one()) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('page', 'The requested page does not exist.'));
         }
     }
 }

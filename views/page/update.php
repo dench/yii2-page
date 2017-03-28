@@ -6,12 +6,12 @@ use yii\helpers\Html;
 /* @var $model dench\page\models\Page */
 /* @var $images app\models\Image */
 
-$this->title = Yii::t('app', 'Update {modelClass}: ', [
+$this->title = Yii::t('page', 'Update {modelClass}: ', [
     'modelClass' => 'Page',
 ]) . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Pages'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('page', 'Pages'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('app', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('page', 'Update');
 ?>
 <div class="page-update">
 

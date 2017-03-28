@@ -112,17 +112,17 @@ class Page extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'slug' => Yii::t('app', 'Slug'),
-            'created_at' => Yii::t('app', 'Created'),
-            'updated_at' => Yii::t('app', 'Updated'),
-            'enabled' => Yii::t('app', 'Enabled'),
-            'name' => Yii::t('app', 'Name'),
-            'h1' => Yii::t('app', 'H1'),
-            'title' => Yii::t('app', 'Title'),
-            'keywords' => Yii::t('app', 'Keywords'),
-            'description' => Yii::t('app', 'Description'),
-            'text' => Yii::t('app', 'Text'),
-            'position' => Yii::t('app', 'Position'),
+            'slug' => Yii::t('page', 'Slug'),
+            'created_at' => Yii::t('page', 'Created'),
+            'updated_at' => Yii::t('page', 'Updated'),
+            'enabled' => Yii::t('page', 'Enabled'),
+            'name' => Yii::t('page', 'Name'),
+            'h1' => Yii::t('page', 'H1'),
+            'title' => Yii::t('page', 'Title'),
+            'keywords' => Yii::t('page', 'Keywords'),
+            'description' => Yii::t('page', 'Description'),
+            'text' => Yii::t('page', 'Text'),
+            'position' => Yii::t('page', 'Position'),
         ];
     }
 
@@ -134,7 +134,7 @@ class Page extends ActiveRecord
             $page = self::findOne(['slug' => $id]);
         }
         if ($page === null) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            throw new NotFoundHttpException(Yii::t('page', 'The requested page does not exist.'));
         }
         Yii::$app->view->params['page'] = $page;
         Yii::$app->view->title = $page->title;
