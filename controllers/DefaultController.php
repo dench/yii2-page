@@ -12,9 +12,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PageController implements the CRUD actions for Page model.
+ * DefaultController implements the CRUD actions for Page model.
  */
-class PageController extends Controller
+class DefaultController extends Controller
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class PageController extends Controller
             'query' => Page::find(),
         ]);
 
-        return $this->render('index', [
+        return $this->render('@vendor/dench/yii2-page/views/page/index', [
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -53,7 +53,7 @@ class PageController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->render('@vendor/dench/yii2-page/views/page/view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -101,7 +101,7 @@ class PageController extends Controller
             }
         }
 
-        return $this->render('create', [
+        return $this->render('@vendor/dench/yii2-page/views/page/create', [
             'model' => $model,
             'images' => $images,
         ]);
@@ -148,7 +148,7 @@ class PageController extends Controller
             }
         }
 
-        return $this->render('update', [
+        return $this->render('@vendor/dench/yii2-page/views/page/update', [
             'model' => $model,
             'images' => $images,
         ]);
