@@ -15,8 +15,7 @@
         "dench/yii2-language": "@dev",
         "dench/yii2-image": "@dev",
         "2amigos/yii2-ckeditor-widget": "~2.0",
-        "voskobovich/yii2-linker-behavior": "^4.0",
-        "kartik-v/yii2-widget-fileinput": "@dev"
+        "voskobovich/yii2-linker-behavior": "^4.0"
     },
     "autoload": {
         "psr-4": {
