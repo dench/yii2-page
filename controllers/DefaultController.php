@@ -3,7 +3,7 @@
 namespace dench\page\controllers;
 
 use Yii;
-use app\models\Image;
+use dench\image\models\Image;
 use dench\page\models\Page;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;

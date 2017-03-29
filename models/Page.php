@@ -12,7 +12,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use app\models\Image;
+use dench\image\models\Image;
 
 /**
  * This is the model class for table "page".

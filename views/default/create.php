@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model dench\page\models\Page */
-/* @var $images app\models\Image */
+/* @var $images dench\image\models\Image[] */
 
 $this->title = Yii::t('page', 'Create Page');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('page', 'Pages'), 'url' => ['index']];

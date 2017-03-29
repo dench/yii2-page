@@ -1,7 +1,7 @@
 <?php
 
 use app\helpers\CategoryHelper;
-use app\widgets\ImageUpload;
+use dench\image\widgets\ImageUpload;
 use dench\language\models\Language;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model dench\page\models\Page */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $images app\models\Image */
+/* @var $images dench\image\models\Image */
 
 $js = '';
 

@@ -17,7 +17,8 @@ class m161031_130124_create_page_table extends Migration
             'slug' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-            'enabled' => $this->boolean()->notNull()->defaultValue(1)
+            'position' => $this->integer()->notNull()->defaultValue(0),
+            'enabled' => $this->boolean()->notNull()->defaultValue(1),
         ]);
 
         $this->createTable('page_lang', [
