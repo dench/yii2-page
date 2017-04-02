@@ -2,6 +2,7 @@
 
 namespace dench\page\controllers;
 
+use dench\page\models\PageSearch;
 use dench\sortable\actions\SortingAction;
 use Yii;
 use dench\image\models\Image;
@@ -48,11 +49,11 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Page::find(),
-        ]);
+        $searchModel = new PageSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

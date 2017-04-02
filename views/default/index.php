@@ -6,6 +6,7 @@ use yii\grid\GridView;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
+/* @var $searchModel dench\page\models\Page */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('page', 'Pages');
@@ -20,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
         'rowOptions' => function ($model, $key, $index, $grid) {
             return [
                 'data-position' => $model->position,
