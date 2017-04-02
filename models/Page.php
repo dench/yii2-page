@@ -155,7 +155,7 @@ class Page extends ActiveRecord
 
     public static function getList($enabled)
     {
-        return ArrayHelper::map(self::find()->andFilterWhere(['enabled' => $enabled])->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->andFilterWhere(['enabled' => $enabled])->orderBy('position')->all(), 'id', 'name');
     }
 
     /**
