@@ -3,7 +3,8 @@
 namespace dench\page\models;
 
 use Yii;
-use app\behaviors\PositionBehavior;
+use dench\image\models\Image;
+use dench\sortable\behaviors\SortableBehavior;
 use dench\language\behaviors\LanguageBehavior;
 use omgdef\multilingual\MultilingualQuery;
 use voskobovich\linker\LinkerBehavior;
@@ -12,7 +13,6 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
-use dench\image\models\Image;
 
 /**
  * This is the model class for table "page".
@@ -60,7 +60,7 @@ class Page extends ActiveRecord
         return [
             LanguageBehavior::className(),
             TimestampBehavior::className(),
-            PositionBehavior::className(),
+            SortableBehavior::className(),
             [
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'name',

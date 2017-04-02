@@ -2,6 +2,7 @@
 
 namespace dench\page\controllers;
 
+use dench\sortable\actions\SortingAction;
 use Yii;
 use dench\image\models\Image;
 use dench\page\models\Page;
@@ -27,6 +28,16 @@ class DefaultController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                 ],
+            ],
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            'sorting' => [
+                'class' => SortingAction::className(),
+                'query' => Page::find(),
             ],
         ];
     }
