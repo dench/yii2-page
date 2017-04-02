@@ -1,8 +1,8 @@
 <?php
 
-use app\helpers\CategoryHelper;
 use dench\image\widgets\ImageUpload;
 use dench\language\models\Language;
+use dench\page\helpers\CategoryHelper;
 use dosamigos\ckeditor\CKEditor;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;

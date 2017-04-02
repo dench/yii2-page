@@ -6,7 +6,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * PageSearch represents the model behind the search form about `app\models\Page`.
+ * PageSearch represents the model behind the search form about `dench\page\models\Page`.
  */
 class PageSearch extends Page
 {
