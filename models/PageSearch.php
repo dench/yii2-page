@@ -13,6 +13,15 @@ class PageSearch extends Page
     /**
      * @inheritdoc
      */
+    public function init()
+    {
+        parent::init();
+
+        $this->detachBehavior('slug');
+    }
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
