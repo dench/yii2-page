@@ -31,7 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => SortableColumn::className(),
             ],
-            'name',
+            [
+                'attribute' => 'name',
+                'content' => function($data) {
+                    if ($data->getChilds()->count()) {
+                        return Html::a('<i class="glyphicon glyphicon-folder-open"></i> ' . $data->name, ['index', 'PageSearch[parent_id]' => $data->id]);
+                    } else {
+                        return $data->name;
+                    }
+                }
+            ],
             'slug',
             'created_at:date',
             'enabled',

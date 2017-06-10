@@ -10,6 +10,8 @@ use yii\data\ActiveDataProvider;
  */
 class PageSearch extends Page
 {
+    public $parent_id = null;
+
     /**
      * @inheritdoc
      */
@@ -25,7 +27,7 @@ class PageSearch extends Page
     public function rules()
     {
         return [
-            [['id', 'created_at', 'updated_at', 'position', 'enabled'], 'integer'],
+            [['id', 'created_at', 'updated_at', 'position', 'enabled', 'parent_id'], 'integer'],
             [['slug', 'name', 'title', 'h1', 'keywords', 'description', 'text'], 'safe'],
         ];
     }
@@ -51,6 +53,8 @@ class PageSearch extends Page
         $query = Page::find();
 
         $query->joinWith('translation');
+
+        $query->leftJoin('page_parent','page.id = page_parent.page_id');
 
         // add conditions that should always apply here
 
@@ -87,6 +91,8 @@ class PageSearch extends Page
         $query->andFilterWhere(['like', 'keywords', $this->keywords]);
         $query->andFilterWhere(['like', 'description', $this->description]);
         $query->andFilterWhere(['like', 'text', $this->text]);
+
+        $query->andWhere(['parent_id' => $this->parent_id]);
 
         return $dataProvider;
     }
