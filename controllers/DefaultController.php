@@ -8,7 +8,7 @@ use Yii;
 use dench\image\models\Image;
 use dench\page\models\Page;
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -81,6 +81,10 @@ class DefaultController extends Controller
 
         $model->loadDefaultValues();
 
+        if (isset(Yii::$app->request->get('PageSearch')['parent_id'])) {
+            $model->parent_ids = [Yii::$app->request->get('PageSearch')['parent_id']];
+        }
+
         $images = [];
 
         if ($post = Yii::$app->request->post()) {
@@ -135,19 +139,24 @@ class DefaultController extends Controller
 
         $images = $model->images;
 
+        $old_ids = ArrayHelper::map($images, 'id', 'id');
+
         if ($post = Yii::$app->request->post()) {
             $model->load($post);
             /** @var Image[] $images */
             $images = [];
             $image_ids = isset($post['Image']) ? $post['Image'] : [];
+            $new_ids = [];
             foreach ($image_ids as $key => $image) {
                 $images[$key] = Image::findOne($key);
+                $new_ids[$key] = $key;
             }
             if ($images) {
                 Model::loadMultiple($images, $post);
             } else {
                 $model->image_ids = [];
             }
+            $deleted_ids = array_diff($old_ids, $new_ids);
 
             $error = [];
             if (!$model->validate()) $error['model'] = $model->errors;
@@ -158,6 +167,10 @@ class DefaultController extends Controller
                 $model->save(false);
                 foreach ($images as $key => $image) {
                     $image->save(false);
+                }
+                foreach ($deleted_ids as $d_id) {
+                    $deleted_image = Image::findOne($d_id);
+                    $deleted_image->delete();
                 }
                 Yii::$app->session->setFlash('success', Yii::t('page', 'Information has been saved successfully.'));
                 if (isset($model->parent)) {
