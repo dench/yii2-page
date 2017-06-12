@@ -4,6 +4,7 @@ use dench\image\widgets\ImageUpload;
 use dench\language\models\Language;
 use dench\page\helpers\CategoryHelper;
 use dosamigos\ckeditor\CKEditor;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
