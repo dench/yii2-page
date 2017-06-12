@@ -35,6 +35,7 @@ use yii\web\NotFoundHttpException;
  *
  * Relations
  *
+ * @property Page $parent
  * @property Page[] $parents
  * @property Page[] $childs
  * @property Image[] $images
@@ -179,6 +180,14 @@ class Page extends ActiveRecord
         } else {
             return false;
         }
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(self::className(), ['id' => 'parent_id'])->viaTable('page_parent', ['page_id' => 'id']);
     }
 
     /**

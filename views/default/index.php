@@ -9,7 +9,15 @@ use yii\helpers\Url;
 /* @var $searchModel dench\page\models\Page */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('page', 'Pages');
+if (isset($dataProvider->models[0]->parent)) {
+    $this->params['breadcrumbs'][] = ['label' => Yii::t('page', 'Pages'), 'url' => ['index']];
+    if (isset($dataProvider->models[0]->parent->parent)) {
+        $this->params['breadcrumbs'][] = ['label' => $dataProvider->models[0]->parent->parent->name, 'url' => ['index', 'PageSearch[parent_id]' => $dataProvider->models[0]->parent->parent->id]];
+    }
+    $this->title = $dataProvider->models[0]->parent->name;
+} else {
+    $this->title = Yii::t('page', 'Pages');
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="page-index">

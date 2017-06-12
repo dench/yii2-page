@@ -109,7 +109,11 @@ class DefaultController extends Controller
                     $image->save(false);
                 }
                 Yii::$app->session->setFlash('success', Yii::t('page', 'Information added successfully.'));
-                return $this->redirect(['index']);
+                if (isset($model->parent)) {
+                    return $this->redirect(['index', 'PageSearch[parent_id]' => $model->parent->id]);
+                } else {
+                    return $this->redirect(['index']);
+                }
             }
         }
 
@@ -156,7 +160,11 @@ class DefaultController extends Controller
                     $image->save(false);
                 }
                 Yii::$app->session->setFlash('success', Yii::t('page', 'Information has been saved successfully.'));
-                return $this->redirect(['index']);
+                if (isset($model->parent)) {
+                    return $this->redirect(['index', 'PageSearch[parent_id]' => $model->parent->id]);
+                } else {
+                    return $this->redirect(['index']);
+                }
             }
         }
 

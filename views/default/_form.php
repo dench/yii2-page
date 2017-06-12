@@ -68,7 +68,19 @@ $this->registerJs($js);
         <?php endforeach; ?>
 
         <div class="tab-pane fade" id="tab-main">
-            <?= $form->field($model, 'parent_ids')->dropDownList(CategoryHelper::getTree(true), ['multiple' => true, 'options' => [$model->id => ['disabled' => true]]]) ?>
+            <?= $form->field($model, 'parent_ids')->widget(Select2::classname(), [
+                'data' => CategoryHelper::getTree(true),
+                'options' => [
+                    'placeholder' => Yii::t('page', 'Select a state ...'),
+                    'multiple' => true,
+                    'options' => [
+                        $model->id => ['disabled' => true],
+                    ]
+                ],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ]); ?>
             <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'enabled')->checkbox() ?>
