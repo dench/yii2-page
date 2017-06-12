@@ -135,7 +135,7 @@ class Page extends ActiveRecord
             $page = self::findOne(['slug' => $id]);
         }
         if ($page === null) {
-            throw new NotFoundHttpException(Yii::t('page', 'The requested page does not exist.'));
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
         Yii::$app->view->params['page'] = $page;
         Yii::$app->view->title = $page->title;
