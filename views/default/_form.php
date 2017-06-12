@@ -72,7 +72,7 @@ $this->registerJs($js);
             <?= $form->field($model, 'parent_ids')->widget(Select2::classname(), [
                 'data' => CategoryHelper::getTree(true),
                 'options' => [
-                    'placeholder' => Yii::t('page', 'Select a state ...'),
+                    'placeholder' => Yii::t('page', 'Select...'),
                     'multiple' => true,
                     'options' => [
                         $model->id => ['disabled' => true],
@@ -81,6 +81,7 @@ $this->registerJs($js);
                 'pluginOptions' => [
                     'allowClear' => true,
                 ],
+                'showToggleAll' => false,
             ]); ?>
             <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
