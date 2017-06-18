@@ -108,10 +108,14 @@ class DefaultController extends Controller
                 if (!$image->validate()) $error['image'][$key] = $image->errors;
             }
             if (empty($error)) {
-                $model->save(false);
                 foreach ($images as $key => $image) {
                     $image->save(false);
                 }
+                if (!$model->image_id && $images) {
+                    $image = current($images);
+                    $model->image_id = $image->id;
+                }
+                $model->save(false);
                 Yii::$app->session->setFlash('success', Yii::t('page', 'Information added successfully.'));
                 if (isset($model->parent)) {
                     return $this->redirect(['index', 'PageSearch[parent_id]' => $model->parent->id]);
@@ -164,7 +168,6 @@ class DefaultController extends Controller
                 if (!$image->validate()) $error['image'][$key] = $image->errors;
             }
             if (empty($error)) {
-                $model->save(false);
                 foreach ($images as $key => $image) {
                     $image->save(false);
                 }
@@ -172,6 +175,11 @@ class DefaultController extends Controller
                     $deleted_image = Image::findOne($d_id);
                     $deleted_image->delete();
                 }
+                if (!$model->image_id && $images) {
+                    $image = current($images);
+                    $model->image_id = $image->id;
+                }
+                $model->save(false);
                 Yii::$app->session->setFlash('success', Yii::t('page', 'Information has been saved successfully.'));
                 if (isset($model->parent)) {
                     return $this->redirect(['index', 'PageSearch[parent_id]' => $model->parent->id]);

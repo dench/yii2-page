@@ -23,6 +23,7 @@ use yii\web\NotFoundHttpException;
  * @property integer $updated_at
  * @property integer $position
  * @property integer $enabled
+ * @property integer $image_id
  *
  * Language
  *
@@ -39,6 +40,7 @@ use yii\web\NotFoundHttpException;
  * @property Page[] $parents
  * @property Page[] $childs
  * @property Image[] $images
+ * @property Image $image
  */
 class Page extends ActiveRecord
 {
@@ -98,7 +100,7 @@ class Page extends ActiveRecord
             [['slug', 'name', 'h1', 'title', 'keywords'], 'string', 'max' => 255],
             [['description', 'text'], 'string'],
             [['slug', 'name', 'h1', 'title', 'keywords', 'description', 'text'], 'trim'],
-            [['position'], 'integer'],
+            [['position', 'image_id'], 'integer'],
             [['enabled'], 'boolean'],
             [['enabled'], 'default', 'value' => self::ENABLED],
             [['enabled'], 'in', 'range' => [self::ENABLED, self::DISABLED]],
@@ -219,5 +221,13 @@ class Page extends ActiveRecord
             ->where([$name . '_image.' . $name . '_id' => $this->id])
             ->orderBy([$name . '_image.position' => SORT_ASC])
             ->indexBy('id');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImage()
+    {
+        return $this->hasOne(Image::className(), ['id' => 'image_id']);
     }
 }
