@@ -18,7 +18,7 @@ class CategoryHelper
     {
         $temp = Yii::$app->db->createCommand("SELECT `page_lang`.`name`, `page`.`id` FROM `page`
                 LEFT JOIN `page_lang` ON `page`.`id`=`page_lang`.`page_id`
-                WHERE `page_lang`.`lang_id`='ru' AND `page`.`enabled` = 1")
+                WHERE `page_lang`.`lang_id`='ru' AND `page`.`enabled` = 1 AND `page`.`type` = 1")
              ->queryAll();
 
         foreach ($temp as $t) {
@@ -56,10 +56,14 @@ class CategoryHelper
             static::$tree[$m] = static::$list[$m];
             if (!empty(static::$parents[$m])) {
                 foreach (static::$parents[$m] as $key2) {
-                    static::$tree[$key2] = '- ' . static::$list[$key2];
+                    if (!empty(static::$list[$key2])) {
+                        static::$tree[$key2] = '- ' . static::$list[$key2];
+                    }
                     if (!empty(static::$parents[$key2])) {
                         foreach (static::$parents[$key2] as $key3) {
-                            static::$tree[$key3] = '- - ' . static::$list[$key3];
+                            if (!empty(static::$list[$key3])) {
+                                static::$tree[$key3] = '- - ' . static::$list[$key3];
+                            }
                         }
                     }
                 }

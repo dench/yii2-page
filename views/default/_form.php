@@ -3,6 +3,7 @@
 use dench\image\widgets\ImageUpload;
 use dench\language\models\Language;
 use dench\page\helpers\CategoryHelper;
+use dench\page\models\Page;
 use dosamigos\ckeditor\CKEditor;
 use kartik\select2\Select2;
 use yii\helpers\Html;
@@ -84,6 +85,10 @@ $this->registerJs($js);
                 'showToggleAll' => false,
             ]); ?>
             <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'type')->dropDownList([
+                Page::TYPE_PAGE => Yii::t('page', 'Page'),
+                Page::TYPE_CATEGORY => Yii::t('page', 'Category'),
+            ]) ?>
             <?= $form->field($model, 'position')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'enabled')->checkbox() ?>
         </div>
@@ -92,6 +97,8 @@ $this->registerJs($js);
             <?= ImageUpload::widget([
                 'images' => $images,
                 'image_id' => $model->image_id,
+                'col' => 'col-sm-4 col-md-3',
+                'size' => 'fill',
             ]) ?>
         </div>
 

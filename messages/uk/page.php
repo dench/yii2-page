@@ -23,4 +23,8 @@ return [
     'Pages' => 'Сторінки',
     'Update {modelClass}: ' => 'Оновити {modelClass}: ',
     'Are you sure you want to delete this item?' => 'Ви впевнені, що хочете видалити цей елемент?',
+    'Page' => 'Сторінка',
+    'Category' => 'Категорія',
+    'Type' => 'Тип',
+    'Parent category' => 'Батьківська категорія',
 ];

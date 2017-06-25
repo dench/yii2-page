@@ -47,6 +47,9 @@ class Page extends ActiveRecord
     const DISABLED = 0;
     const ENABLED = 1;
 
+    const TYPE_PAGE = 0;
+    const TYPE_CATEGORY = 1;
+
     /**
      * @inheritdoc
      */
@@ -101,9 +104,10 @@ class Page extends ActiveRecord
             [['description', 'text'], 'string'],
             [['slug', 'name', 'h1', 'title', 'keywords', 'description', 'text'], 'trim'],
             [['position', 'image_id'], 'integer'],
-            [['enabled'], 'boolean'],
+            [['enabled', 'type'], 'boolean'],
             [['enabled'], 'default', 'value' => self::ENABLED],
             [['enabled'], 'in', 'range' => [self::ENABLED, self::DISABLED]],
+            [['type'], 'in', 'range' => [self::TYPE_PAGE, self::TYPE_CATEGORY]],
             [['image_ids', 'parent_ids'], 'each', 'rule' => ['integer']],
         ];
     }
@@ -126,6 +130,8 @@ class Page extends ActiveRecord
             'description' => Yii::t('page', 'Description'),
             'text' => Yii::t('page', 'Text'),
             'position' => Yii::t('page', 'Position'),
+            'type' => Yii::t('page', 'Type'),
+            'parent_ids' => Yii::t('page', 'Parent category'),
         ];
     }
 

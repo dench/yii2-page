@@ -23,4 +23,8 @@ return [
     'Pages' => 'Страницы',
     'Update {modelClass}: ' => 'Обновить {modelClass}: ',
     'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить этот элемент?',
+    'Page' => 'Страница',
+    'Category' => 'Категория',
+    'Type' => 'Тип',
+    'Parent category' => 'Родительская категория',
 ];
