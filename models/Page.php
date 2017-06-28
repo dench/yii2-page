@@ -40,6 +40,7 @@ use yii\web\NotFoundHttpException;
  * @property Page[] $parents
  * @property Page[] $childs
  * @property Image[] $images
+ * @property Image[] $imagesAll
  * @property Image $image
  * @property array $imageEnabled
  */

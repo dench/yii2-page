@@ -1,5 +1,6 @@
 <?php
 
+use dench\image\helpers\ImageHelper;
 use dench\image\widgets\ImageUpload;
 use dench\language\models\Language;
 use dench\page\helpers\CategoryHelper;
@@ -35,6 +36,64 @@ $('#page-name" . $suffix . "').focus(function(){
 
 }
 
+$path = ImageHelper::generatePath('fill');
+
+$sizes = [];
+foreach (Yii::$app->params['image']['size'] as $key => $size) {
+    $sizes[] = "['" . $size['width'] . " x " . $size['height'] . " / " . $size['method'] . "', '" . $key . "']";
+}
+$size_items = implode($sizes, ', ');
+
+$js .= <<<JS
+CKEDITOR.on('dialogDefinition', function(ev) {
+
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
+    
+    dialogDefinition.resizable = CKEDITOR.DIALOG_RESIZE_NONE;
+
+    if (dialogName == 'image') {
+        dialogDefinition.addContents({
+            id: 'Insert',
+            label: 'Insert Image',
+            elements: [
+                {
+                    type: 'select',
+                    label: 'Size',
+                    items: [{$size_items}],
+                    labelStyle: 'display: none'
+                },
+                {
+                    type: 'html',
+                    html: '<div class="images-data"></div>'
+                }
+            ]
+        });
+        var oldOnShow = dialogDefinition.onShow;
+        var newOnShow = function () {
+            var html = $('<div>').addClass('images-data');
+            $('#tab-images').find('img').each(function(){
+                var img = $(this);
+                var imgId = img.next('input').val();
+                var imgAlt = img.next('input').next('.input-group').find('input').val();
+                html.append($(this).clone().click(function(){
+                    var size = $('div[name="Insert"]').find('select').val();
+                    var imgSrc = $(this).attr('src').replace('/fill/', '/' + size + '/');
+                    ev.editor.insertHtml('<img src="' + imgSrc + '" alt="' + imgAlt + '" data-id="' + imgId + '">');
+                    CKEDITOR.dialog.getCurrent().hide();
+                }));
+            });
+            html.append('<style>.images-data { max-height: 377px; white-space: normal; } .images-data img { border: 1px solid #CCC; padding: 2px; margin: 3px; width: 113px; cursor: pointer; } .images-data img:hover { border: 1px solid #666; }</style>');
+            $('.images-data').html(html);
+        }
+        dialogDefinition.onShow = function() {
+            oldOnShow.call(this, arguments);
+            newOnShow.call(this, arguments);
+        };
+    }
+});
+JS;
+
 $this->registerJs($js);
 ?>
 
@@ -60,8 +119,11 @@ $this->registerJs($js);
                 <?= $form->field($model, 'description' . $suffix)->textarea() ?>
                 <?= $form->field($model, 'text' . $suffix)->widget(CKEditor::className(), [
                     'preset' => 'full',
+                    'options' => [
+                        'id' => 'pagetext',
+                    ],
                     'clientOptions' => [
-                        'customConfig' => '/js/ckeditor.js',
+                        'customConfig' => '/js/ckeditor.js?' . time(),
                         'language' => Yii::$app->language,
                         'allowedContent' => true,
                     ]

@@ -2,6 +2,7 @@
 
 namespace dench\page\controllers;
 
+use dench\image\helpers\ImageHelper;
 use dench\page\models\PageSearch;
 use dench\sortable\actions\SortingAction;
 use Yii;
