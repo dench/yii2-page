@@ -41,6 +41,7 @@ use yii\web\NotFoundHttpException;
  * @property Page[] $childs
  * @property Image[] $images
  * @property Image $image
+ * @property array $imageEnabled
  */
 class Page extends ActiveRecord
 {
@@ -49,6 +50,8 @@ class Page extends ActiveRecord
 
     const TYPE_PAGE = 0;
     const TYPE_CATEGORY = 1;
+
+    private $_imageEnabled = null;
 
     /**
      * @inheritdoc
@@ -85,6 +88,10 @@ class Page extends ActiveRecord
                                     $image_ids = array_values($primaryModel->image_ids);
                                     return array_search($relatedPk, $image_ids);
                                 },
+                                'enabled' => function($updater, $relatedPk, $rowCondition) {
+                                    $primaryModel = $updater->getBehavior()->owner;
+                                    return !empty($primaryModel->imageEnabled[$relatedPk]) ? 1 : 0;
+                                },
                             ],
                         ],
                     ],
@@ -108,7 +115,7 @@ class Page extends ActiveRecord
             [['enabled'], 'default', 'value' => self::ENABLED],
             [['enabled'], 'in', 'range' => [self::ENABLED, self::DISABLED]],
             [['type'], 'in', 'range' => [self::TYPE_PAGE, self::TYPE_CATEGORY]],
-            [['image_ids', 'parent_ids'], 'each', 'rule' => ['integer']],
+            [['image_ids', 'parent_ids', 'imageEnabled'], 'each', 'rule' => ['integer']],
         ];
     }
 
@@ -225,8 +232,43 @@ class Page extends ActiveRecord
             ->viaTable($name . '_image', [$name . '_id' => 'id'])
             ->leftJoin($name . '_image', 'id=image_id')
             ->where([$name . '_image.' . $name . '_id' => $this->id])
+            ->andFilterWhere([$name . '_image.enabled' => true])
             ->orderBy([$name . '_image.position' => SORT_ASC])
             ->indexBy('id');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getImagesAll()
+    {
+        $name = $this->tableName();
+
+        return $this->hasMany(Image::className(), ['id' => 'image_id'])
+            ->viaTable($name . '_image', [$name . '_id' => 'id'])
+            ->leftJoin($name . '_image', 'id=image_id')
+            ->where([$name . '_image.' . $name . '_id' => $this->id])
+            ->orderBy([$name . '_image.position' => SORT_ASC])
+            ->indexBy('id');
+    }
+
+    public function getImageEnabled()
+    {
+        if ($this->_imageEnabled != null) {
+            return $this->_imageEnabled;
+        }
+
+        return $this->_imageEnabled = (new \yii\db\Query())
+            ->select(['enabled'])
+            ->from('page_image')
+            ->where(['page_id' => $this->id])
+            ->indexBy('image_id')
+            ->column();
+    }
+
+    public function setImageEnabled($value)
+    {
+        $this->_imageEnabled = $value;
     }
 
     /**

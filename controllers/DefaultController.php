@@ -141,7 +141,7 @@ class DefaultController extends Controller
     {
         $model = $this->findModelMulti($id);
 
-        $images = $model->images;
+        $images = $model->imagesAll;
 
         $old_ids = ArrayHelper::map($images, 'id', 'id');
 

@@ -99,6 +99,8 @@ $this->registerJs($js);
                 'image_id' => $model->image_id,
                 'col' => 'col-sm-4 col-md-3',
                 'size' => 'fill',
+                'imageEnabled' => $model->imageEnabled,
+                'label' => null,
             ]) ?>
         </div>
 
