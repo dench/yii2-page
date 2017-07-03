@@ -110,7 +110,7 @@ $js .= <<<JS
                 iD = $(this).next().val();
                 str = str ? str : $('#pagetext').val();
                 dataId = str.indexOf('data-id="' + iD + '"');
-                if (dataId) {
+                if (dataId > 0) {
                     alt = $(this).next().next().find('input').val();
                     name = $(this).next().next().next().find('input').val();
                     
