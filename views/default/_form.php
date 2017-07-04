@@ -97,39 +97,40 @@ JS;
 $js .= <<<JS
     $('#pageform').submit(function(event){
         if (event.originalEvent) {
-            var iD;
-            var start;
-            var end;
-            var img;
-            var str;
-            var str2;
-            var dataId;
-            var alt;
-            var name;
-            $(document).find('.file-preview img').each(function(){
-                iD = $(this).next().val();
-                str = str ? str : $('#pagetext').val();
-                dataId = str.indexOf('data-id="' + iD + '"');
-                if (dataId > 0) {
-                    alt = $(this).next().next().find('input').val();
-                    name = $(this).next().next().next().find('input').val();
-                    
-                    img = str.lastIndexOf('<', dataId);
-                    
-                    start = str.indexOf('alt="', img)+5;
-                    end = str.indexOf('"', start);
-                    str2 = str.slice(0, start) + alt + str.slice(end);
-                    str = str2;
-                    
-                    start = str.indexOf('src="', img)+5;
-                    end = str.indexOf('"', start);
-                    start = str.lastIndexOf('/', end)+1;
-                    end = str.lastIndexOf('.', end);
-                    str2 = str.slice(0, start) + name + str.slice(end);
-                    str = str2;
-                }
+            $('[id^="pagetext"]').each(function(){
+                var iD;
+                var start;
+                var end;
+                var img;
+                var str = $(this).val();
+                var str2;
+                var dataId;
+                var alt;
+                var name;
+                $(document).find('.file-preview img').each(function(){
+                    iD = $(this).next().val();
+                    dataId = str.indexOf('data-id="' + iD + '"');
+                    if (dataId > 0) {
+                        alt = $(this).next().next().find('input').val();
+                        name = $(this).next().next().next().find('input').val();
+                        
+                        img = str.lastIndexOf('<', dataId);
+                        
+                        start = str.indexOf('alt="', img)+5;
+                        end = str.indexOf('"', start);
+                        str2 = str.slice(0, start) + alt + str.slice(end);
+                        str = str2;
+                        
+                        start = str.indexOf('src="', img)+5;
+                        end = str.indexOf('"', start);
+                        start = str.lastIndexOf('/', end)+1;
+                        end = str.lastIndexOf('.', end);
+                        str2 = str.slice(0, start) + name + str.slice(end);
+                        str = str2;
+                    }
+                });
+                eval('CKEDITOR.instances.' + $(this).attr('id') + '.setData(str);');
             });
-            CKEDITOR.instances.pagetext.setData(str);
         }
         return true;
     });
@@ -161,7 +162,7 @@ $this->registerJs($js);
                 <?= $form->field($model, 'text' . $suffix)->widget(CKEditor::className(), [
                     'preset' => 'full',
                     'options' => [
-                        'id' => 'pagetext',
+                        'id' => 'pagetext' . $suffix,
                     ],
                     'clientOptions' => [
                         'customConfig' => '/js/ckeditor.js?' . time(),
