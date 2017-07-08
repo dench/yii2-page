@@ -165,7 +165,7 @@ $this->registerJs($js);
                         'id' => 'pagetext' . $suffix,
                     ],
                     'clientOptions' => [
-                        'customConfig' => '/js/ckeditor.js?' . time(),
+                        'customConfig' => '/js/ckeditor.js',
                         'language' => Yii::$app->language,
                         'allowedContent' => true,
                     ]
