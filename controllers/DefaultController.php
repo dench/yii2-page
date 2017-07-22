@@ -144,10 +144,9 @@ class DefaultController extends Controller
 
         $images = $model->imagesAll;
 
-        $old_ids = ArrayHelper::map($images, 'id', 'id');
-
         if ($post = Yii::$app->request->post()) {
             $model->load($post);
+            $old_ids = ArrayHelper::map($images, 'id', 'id');
             /** @var Image[] $images */
             $images = [];
             $image_ids = isset($post['Image']) ? $post['Image'] : [];
