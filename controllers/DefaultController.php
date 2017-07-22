@@ -172,8 +172,9 @@ class DefaultController extends Controller
                     $image->save(false);
                 }
                 foreach ($deleted_ids as $d_id) {
-                    $deleted_image = Image::findOne($d_id);
-                    $deleted_image->delete();
+                    if ($deleted_image = Image::findOne($d_id)) {
+                        $deleted_image->delete();
+                    }
                 }
                 if (!$model->image_id && $images) {
                     $image = current($images);
