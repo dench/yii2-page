@@ -259,10 +259,12 @@ class Page extends ActiveRecord
             return $this->_imageEnabled;
         }
 
+        $name = $this->tableName();
+
         return $this->_imageEnabled = (new \yii\db\Query())
             ->select(['enabled'])
-            ->from('page_image')
-            ->where(['page_id' => $this->id])
+            ->from($name . '_image')
+            ->where([$name . '_id' => $this->id])
             ->indexBy('image_id')
             ->column();
     }
