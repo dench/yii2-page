@@ -117,6 +117,7 @@ class Page extends ActiveRecord
             [['enabled'], 'in', 'range' => [self::ENABLED, self::DISABLED]],
             [['type'], 'in', 'range' => [self::TYPE_PAGE, self::TYPE_CATEGORY]],
             [['image_ids', 'parent_ids', 'imageEnabled'], 'each', 'rule' => ['integer']],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
     }
 
