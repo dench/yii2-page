@@ -12,10 +12,12 @@ class m161031_130125_create_page_parent_table extends Migration
      */
     public function up()
     {
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+
         $this->createTable('page_parent', [
             'page_id' => $this->integer()->notNull(),
             'parent_id' => $this->integer()->notNull(),
-        ]);
+        ], $tableOptions);
 
         $this->addPrimaryKey('pk-page_parent', 'page_parent', ['page_id', 'parent_id']);
 

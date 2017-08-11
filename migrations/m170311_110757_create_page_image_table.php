@@ -12,11 +12,13 @@ class m170311_110757_create_page_image_table extends Migration
      */
     public function up()
     {
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+
         $this->createTable('page_image', [
             'page_id' => $this->integer()->notNull(),
             'image_id' => $this->integer()->notNull(),
             'position' => $this->integer()->notNull()->defaultValue(0),
-        ]);
+        ], $tableOptions);
 
         $this->addPrimaryKey('pk-page_image', 'page_image', ['page_id', 'image_id']);
         

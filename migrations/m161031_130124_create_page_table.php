@@ -12,6 +12,8 @@ class m161031_130124_create_page_table extends Migration
      */
     public function up()
     {
+        $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+
         $this->createTable('page', [
             'id' => $this->primaryKey(),
             'slug' => $this->string()->notNull(),
@@ -19,7 +21,7 @@ class m161031_130124_create_page_table extends Migration
             'updated_at' => $this->integer()->notNull(),
             'position' => $this->integer()->notNull()->defaultValue(0),
             'enabled' => $this->boolean()->notNull()->defaultValue(1),
-        ]);
+        ], $tableOptions);
 
         $this->createTable('page_lang', [
             'page_id' => $this->integer()->notNull(),
@@ -30,7 +32,7 @@ class m161031_130124_create_page_table extends Migration
             'keywords' => $this->string(),
             'description' => $this->text(),
             'text' => $this->text()
-        ]);
+        ], $tableOptions);
 
         $this->addPrimaryKey('pk-page_lang', 'page_lang', ['page_id', 'lang_id']);
 
