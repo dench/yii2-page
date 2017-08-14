@@ -1,7 +1,7 @@
 <?php
 
 use dench\image\helpers\ImageHelper;
-use dench\image\widgets\ImageUpload;
+use dench\image\widgets\ImagesForm;
 use dench\language\models\Language;
 use dench\page\helpers\CategoryHelper;
 use dench\page\models\Page;
@@ -198,7 +198,7 @@ $this->registerJs($js);
         </div>
 
         <div class="tab-pane fade" id="tab-images">
-            <?= ImageUpload::widget([
+            <?= ImagesForm::widget([
                 'images' => $images,
                 'image_id' => $model->image_id,
                 'col' => 'col-sm-4 col-md-3',
