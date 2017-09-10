@@ -12,6 +12,8 @@ class PageSearch extends Page
 {
     public $parent_id = null;
 
+    public $all;
+
     /**
      * @inheritdoc
      */
@@ -66,6 +68,10 @@ class PageSearch extends Page
                 ],
             ],
         ]);
+
+        if ($this->all) {
+            $dataProvider->pagination = false;
+        }
 
         $this->load($params);
 

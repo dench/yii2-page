@@ -49,7 +49,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PageSearch();
+        $searchModel = new PageSearch(['all' => Yii::$app->request->get('all')]);
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

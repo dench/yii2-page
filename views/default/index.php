@@ -19,6 +19,12 @@ if (isset($dataProvider->models[0]->parent)) {
     $this->title = Yii::t('page', 'Pages');
 }
 $this->params['breadcrumbs'][] = $this->title;
+
+if (!Yii::$app->request->get('all') && $dataProvider->totalCount > $dataProvider->count) {
+    $showAll = Html::a(Yii::t('app', 'Show all'), Url::current(['all' => 1]));
+} else {
+    $showAll = '';
+}
 ?>
 <div class="page-index">
 
@@ -35,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'data-position' => $model->position,
             ];
         },
+        'layout' => "{summary}\n{$showAll}\n{items}\n{pager}",
         'columns' => [
             [
                 'class' => SortableColumn::className(),
@@ -51,7 +58,21 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'slug',
             'created_at:date',
-            'enabled',
+            [
+                'attribute' => 'enabled',
+                'filter' => [
+                    Yii::t('app', 'Disabled'),
+                    Yii::t('app', 'Enabled'),
+                ],
+                'content' => function($model, $key, $index, $column){
+                    if ($model->enabled) {
+                        $class = 'glyphicon glyphicon-ok';
+                    } else {
+                        $class = '';
+                    }
+                    return Html::tag('i', '', ['class' => $class]);
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
