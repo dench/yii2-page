@@ -23,7 +23,7 @@ class Module extends \yii\base\Module
         Yii::$app->i18n->translations['page'] = [
             'class' => 'yii\i18n\PhpMessageSource',
             'sourceLanguage' => 'en',
-            'basePath' => '@dench/page/messages',
+            'basePath' => '@vendor/dench/yii2-page/messages',
         ];
     }
 }
