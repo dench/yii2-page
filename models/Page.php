@@ -33,6 +33,7 @@ use yii\web\NotFoundHttpException;
  * @property string $keywords
  * @property string $description
  * @property string $text
+ * @property string $short
  *
  * Relations
  *
@@ -109,8 +110,8 @@ class Page extends ActiveRecord
         return [
             [['name', 'h1', 'title'], 'required'],
             [['slug', 'name', 'h1', 'title', 'keywords'], 'string', 'max' => 255],
-            [['description', 'text'], 'string'],
-            [['slug', 'name', 'h1', 'title', 'keywords', 'description', 'text'], 'trim'],
+            [['description', 'text', 'short'], 'string'],
+            [['slug', 'name', 'h1', 'title', 'keywords', 'description', 'text', 'short'], 'trim'],
             [['position', 'image_id'], 'integer'],
             [['enabled', 'type'], 'boolean'],
             [['enabled'], 'default', 'value' => self::ENABLED],
@@ -137,7 +138,8 @@ class Page extends ActiveRecord
             'title' => Yii::t('page', 'Title'),
             'keywords' => Yii::t('page', 'Keywords'),
             'description' => Yii::t('page', 'Description'),
-            'text' => Yii::t('page', 'Text'),
+            'text' => Yii::t('page', 'Full text'),
+            'short' => Yii::t('page', 'Short text'),
             'position' => Yii::t('page', 'Position'),
             'type' => Yii::t('page', 'Type'),
             'parent_ids' => Yii::t('page', 'Parent category'),

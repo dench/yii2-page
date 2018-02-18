@@ -27,4 +27,6 @@ return [
     'Category' => 'Категория',
     'Type' => 'Тип',
     'Parent category' => 'Родительская категория',
+    'Short text' => 'Краткий текст',
+    'Full text' => 'Полный текст',
 ];

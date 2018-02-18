@@ -27,4 +27,6 @@ return [
     'Category' => 'Категорія',
     'Type' => 'Тип',
     'Parent category' => 'Батьківська категорія',
+    'Short text' => 'Короткий текст',
+    'Full text' => 'Повний текст',
 ];
