@@ -284,4 +284,22 @@ class Page extends ActiveRecord
     {
         return $this->hasOne(Image::className(), ['id' => 'image_id']);
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        Yii::$app->cache->delete('page_content-' . $this->id . '-' . Yii::$app->language);
+
+        Yii::$app->cache->delete('page_card-' . $this->id . '-' . Yii::$app->language);
+
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function afterDelete()
+    {
+        Yii::$app->cache->delete('page_content-' . $this->id . '-' . Yii::$app->language);
+
+        Yii::$app->cache->delete('page_card-' . $this->id . '-' . Yii::$app->language);
+
+        parent::afterDelete();
+    }
 }
