@@ -2,6 +2,7 @@
 
 namespace dench\page\models;
 
+use dench\image\models\File;
 use Yii;
 use dench\image\models\Image;
 use dench\sortable\behaviors\SortableBehavior;
@@ -44,6 +45,12 @@ use yii\web\NotFoundHttpException;
  * @property Image[] $imagesAll
  * @property Image $image
  * @property array $imageEnabled
+ * @property array $image_ids
+ * @property File[] $files
+ * @property File[] $filesAll
+ * @property array $fileEnabled
+ * @property array $fileName
+ * @property array $file_ids
  */
 class Page extends ActiveRecord
 {
@@ -54,6 +61,8 @@ class Page extends ActiveRecord
     const TYPE_CATEGORY = 1;
 
     private $_imageEnabled = null;
+    private $_fileEnabled = null;
+    private $_fileName = null;
 
     /**
      * @inheritdoc
@@ -97,6 +106,26 @@ class Page extends ActiveRecord
                             ],
                         ],
                     ],
+                    'file_ids' => [
+                        'files',
+                        'updater' => [
+                            'viaTableAttributesValue' => [
+                                'position' => function($updater, $relatedPk, $rowCondition) {
+                                    $primaryModel = $updater->getBehavior()->owner;
+                                    $file_ids = array_values($primaryModel->file_ids);
+                                    return array_search($relatedPk, $file_ids);
+                                },
+                                'enabled' => function($updater, $relatedPk, $rowCondition) {
+                                    $primaryModel = $updater->getBehavior()->owner;
+                                    return !empty($primaryModel->fileEnabled[$relatedPk]) ? 1 : 0;
+                                },
+                                'name' => function($updater, $relatedPk, $rowCondition) {
+                                    $primaryModel = $updater->getBehavior()->owner;
+                                    return $primaryModel->fileName[$relatedPk];
+                                },
+                            ],
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -117,7 +146,8 @@ class Page extends ActiveRecord
             [['enabled'], 'default', 'value' => self::ENABLED],
             [['enabled'], 'in', 'range' => [self::ENABLED, self::DISABLED]],
             [['type'], 'in', 'range' => [self::TYPE_PAGE, self::TYPE_CATEGORY]],
-            [['image_ids', 'parent_ids', 'imageEnabled'], 'each', 'rule' => ['integer']],
+            [['image_ids', 'parent_ids', 'imageEnabled', 'file_ids', 'fileEnabled'], 'each', 'rule' => ['integer']],
+            [['fileName'], 'each', 'rule' => ['string']],
             [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
         ];
     }
@@ -283,6 +313,73 @@ class Page extends ActiveRecord
     public function getImage()
     {
         return $this->hasOne(Image::className(), ['id' => 'image_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFiles()
+    {
+        $name = $this->tableName();
+        return $this->hasMany(File::className(), ['id' => 'file_id'])
+            ->viaTable($name . '_file', [$name . '_id' => 'id'])
+            ->leftJoin($name . '_file', 'id=file_id')
+            ->where([$name . '_file.' . $name . '_id' => $this->id])
+            ->andFilterWhere([$name . '_file.enabled' => true])
+            ->orderBy([$name . '_file.position' => SORT_ASC])
+            ->indexBy('id');
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFilesAll()
+    {
+        $name = $this->tableName();
+        return $this->hasMany(File::className(), ['id' => 'file_id'])
+            ->viaTable($name . '_file', [$name . '_id' => 'id'])
+            ->leftJoin($name . '_file', 'id=file_id')
+            ->where([$name . '_file.' . $name . '_id' => $this->id])
+            ->orderBy([$name . '_file.position' => SORT_ASC])
+            ->indexBy('id');
+    }
+
+    public function getFileEnabled()
+    {
+        if ($this->_fileEnabled != null) {
+            return $this->_fileEnabled;
+        }
+        $name = $this->tableName();
+        return $this->_fileEnabled = (new \yii\db\Query())
+            ->select(['enabled'])
+            ->from($name . '_file')
+            ->where([$name . '_id' => $this->id])
+            ->indexBy('file_id')
+            ->column();
+    }
+
+    public function getFileName()
+    {
+        if ($this->_fileName != null) {
+            return $this->_fileName;
+        }
+        $name = $this->tableName();
+        return $this->_fileName = (new \yii\db\Query())
+            ->select(['name'])
+            ->from($name . '_file')
+            ->where([$name . '_id' => $this->id])
+            ->indexBy('file_id')
+            ->column();
+    }
+
+    public function setFileName($value)
+    {
+        $this->_fileName = $value;
+    }
+
+    public function setFileEnabled($value)
+    {
+        $this->_fileEnabled = $value;
     }
 
     public function afterSave($insert, $changedAttributes)

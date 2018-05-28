@@ -2,6 +2,7 @@
 
 namespace dench\page\controllers;
 
+use dench\image\models\File;
 use dench\page\models\PageSearch;
 use dench\sortable\actions\SortingAction;
 use Yii;
@@ -86,6 +87,7 @@ class DefaultController extends Controller
         }
 
         $images = [];
+        $files = [];
 
         if ($post = Yii::$app->request->post()) {
             /** @var Image[] $images */
@@ -100,6 +102,18 @@ class DefaultController extends Controller
                 $model->image_ids = [];
             }
 
+            /** @var File[] $files */
+            $files = [];
+            $file_ids = isset($post['File']) ? $post['File'] : [];
+            foreach ($file_ids as $key => $file) {
+                $files[$key] = File::findOne($key);
+            }
+            if ($files) {
+                Model::loadMultiple($files, $post);
+            } else {
+                $model->file_ids = [];
+            }
+
             $model->load($post);
 
             $error = [];
@@ -110,6 +124,9 @@ class DefaultController extends Controller
             if (empty($error)) {
                 foreach ($images as $key => $image) {
                     $image->save(false);
+                }
+                foreach ($files as $key => $file) {
+                    $file->save(false);
                 }
                 if (!$model->image_id && $images) {
                     $image = current($images);
@@ -128,6 +145,7 @@ class DefaultController extends Controller
         return $this->render('create', [
             'model' => $model,
             'images' => $images,
+            'files' => $files,
         ]);
     }
 
@@ -142,6 +160,7 @@ class DefaultController extends Controller
         $model = $this->findModelMulti($id);
 
         $images = $model->imagesAll;
+        $files = $model->filesAll;
 
         if ($post = Yii::$app->request->post()) {
             $model->load($post);
@@ -161,6 +180,22 @@ class DefaultController extends Controller
             }
             $deleted_ids = array_diff($old_ids, $new_ids);
 
+            //$f_old_ids = ArrayHelper::map($files, 'id', 'id');
+            /** @var File[] $files */
+            $files = [];
+            $file_ids = isset($post['File']) ? $post['File'] : [];
+            $f_new_ids = [];
+            foreach ($file_ids as $key => $file) {
+                $files[$key] = File::findOne($key);
+                $f_new_ids[$key] = $key;
+            }
+            if ($files) {
+                Model::loadMultiple($files, $post);
+            } else {
+                $model->file_ids = [];
+            }
+            //$f_deleted_ids = array_diff($f_old_ids, $f_new_ids);
+
             $error = [];
             if (!$model->validate()) $error['model'] = $model->errors;
             foreach ($images as $key => $image) {
@@ -179,6 +214,9 @@ class DefaultController extends Controller
                     $image = current($images);
                     $model->image_id = $image->id;
                 }
+                foreach ($files as $key => $file) {
+                    $file->save(false);
+                }
                 $model->save(false);
                 Yii::$app->session->setFlash('success', Yii::t('page', 'Information has been saved successfully.'));
                 if (isset($model->parent)) {
@@ -192,6 +230,7 @@ class DefaultController extends Controller
         return $this->render('update', [
             'model' => $model,
             'images' => $images,
+            'files' => $files,
         ]);
     }
 

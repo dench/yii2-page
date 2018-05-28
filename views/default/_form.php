@@ -1,5 +1,6 @@
 <?php
 
+use dench\image\widgets\FilesForm;
 use dench\image\helpers\ImageHelper;
 use dench\image\widgets\ImagesForm;
 use dench\language\models\Language;
@@ -13,7 +14,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model dench\page\models\Page */
 /* @var $form yii\widgets\ActiveForm */
-/* @var $images dench\image\models\Image */
+/* @var $images dench\image\models\Image[] */
+/* @var $files dench\image\models\File[] */
 
 $js = '';
 
@@ -141,7 +143,18 @@ $this->registerJs($js);
 
 <div class="page-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'pageform']); ?>
+    <?php /*$form = ActiveForm::begin(['id' => 'pageform']);*/ ?>
+
+    <?php $form = ActiveForm::begin([
+        'enableClientValidation' => false,
+        'enableAjaxValidation' => true,
+        'validateOnChange' => true,
+        'validateOnBlur' => false,
+        'options' => [
+            'enctype' => 'multipart/form-data',
+            'id' => 'pageform',
+        ]
+    ]); ?>
 
     <ul class="nav nav-tabs">
         <?php foreach (Language::suffixList() as $suffix => $name) : ?>
@@ -149,6 +162,7 @@ $this->registerJs($js);
         <?php endforeach; ?>
         <li class="nav-item"><a href="#tab-main" class="nav-link" data-toggle="tab"><?= Yii::t('page', 'Main') ?></a></li>
         <li class="nav-item"><a href="#tab-images" class="nav-link" data-toggle="tab"><?= Yii::t('page', 'Images') ?></a></li>
+        <li class="nav-item"><a href="#tab-files" class="nav-link" data-toggle="tab"><?= Yii::t('app', 'Files') ?></a></li>
     </ul>
 
     <div class="tab-content">
@@ -213,6 +227,17 @@ $this->registerJs($js);
                 'col' => 'col-sm-4 col-md-3',
                 'size' => 'fill',
                 'imageEnabled' => $model->imageEnabled,
+                'fileInputName' => 'images',
+                'label' => null,
+            ]) ?>
+        </div>
+
+        <div class="tab-pane fade" id="tab-files">
+            <?= FilesForm::widget([
+                'files' => $files,
+                'fileEnabled' => $model->fileEnabled,
+                'fileName' => $model->fileName,
+                'col' => 'col-sm-4 col-md-3',
                 'label' => null,
             ]) ?>
         </div>
