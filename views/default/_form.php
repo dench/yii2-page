@@ -143,13 +143,7 @@ $this->registerJs($js);
 
 <div class="page-form">
 
-    <?php /*$form = ActiveForm::begin(['id' => 'pageform']);*/ ?>
-
     <?php $form = ActiveForm::begin([
-        'enableClientValidation' => false,
-        'enableAjaxValidation' => true,
-        'validateOnChange' => true,
-        'validateOnBlur' => false,
         'options' => [
             'enctype' => 'multipart/form-data',
             'id' => 'pageform',

@@ -184,6 +184,7 @@ class DefaultController extends Controller
             /** @var File[] $files */
             $files = [];
             $file_ids = isset($post['File']) ? $post['File'] : [];
+            print_r($file_ids);
             $f_new_ids = [];
             foreach ($file_ids as $key => $file) {
                 $files[$key] = File::findOne($key);
