@@ -82,8 +82,8 @@ class DefaultController extends Controller
 
         $model->loadDefaultValues();
 
-        if (isset(Yii::$app->request->get('PageSearch')['parent_id'])) {
-            $model->parent_ids = [Yii::$app->request->get('PageSearch')['parent_id']];
+        if ($parent_id = Yii::$app->request->get('parent_id')) {
+            $model->parent_ids = [$parent_id];
         }
 
         $images = [];
