@@ -44,7 +44,7 @@ $sizes = [];
 foreach (Yii::$app->params['image']['size'] as $key => $size) {
     $sizes[] = "['" . $size['width'] . " x " . $size['height'] . " / " . $size['method'] . "', '" . $key . "']";
 }
-$size_items = implode($sizes, ', ');
+$size_items = implode(', ', $sizes);
 
 $js .= <<<JS
 CKEDITOR.on('dialogDefinition', function(ev) {
